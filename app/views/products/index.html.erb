@@ -25,6 +25,7 @@
         <% if  user_signed_in? %>
         <td><%= link_to 'Edit', edit_product_path(product) %></td>
         <td><%= link_to 'Destroy', product, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Add to Wishlist', controller: :wishlist, action: :create, params: { product_id: product.id } %></td>
         <% end %>
       </tr>
     <% end %>
