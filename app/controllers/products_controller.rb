@@ -1,5 +1,6 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :check_user, only: [:edit, :update, :destroy]
 
   # GET /products
   # GET /products.json
@@ -66,6 +67,12 @@ class ProductsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_product
       @product = Product.find(params[:id])
+    end
+
+    def check_user
+      if !(current_user.try(:admin?) || (current_user && current_user.id == @product.user_id))
+        redirect_to products_path, notice: "ERROR. Not Authorised"
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
