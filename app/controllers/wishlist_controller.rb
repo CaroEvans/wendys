@@ -12,7 +12,19 @@ class WishlistController < ApplicationController
 
   def create
   #  render plain: create_params.inspect
-    
+  @product = Wishlist.new(create_params)
+  @product.user = current_user
+
+  respond_to do |format|
+    if @product.save
+      format.html { redirect_to @product, notice: 'Product was successfully created.' }
+      format.json { render :show, status: :created, location: @product }
+    else
+      format.html { render :new }
+      format.json { render json: @product.errors, status: :unprocessable_entity }
+    end
+  end
+
   end
 
 
